@@ -1,8 +1,14 @@
+--Drops the employee_DB --
 DROP DATABASE IF EXISTS employee_DB;
 
+--Creates the "employee_DB" database --
 CREATE DATABASE employee_DB;
 
+
 USE employee_DB;
+
+
+--Creates the tables--
 
 CREATE TABLE department (
 id INT NOT NULL AUTO_INCREMENT,
