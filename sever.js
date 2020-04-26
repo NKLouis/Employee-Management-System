@@ -177,45 +177,56 @@
         });
     };
 // //******************************************VIEW*******************************************
-    // function viewInfo() {
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 type: "list",
-    //                 message: "What would you like to view?",
-    //                 choices: ["departments", "roles", "employees"],
-    //                 name: "view"
-    //             }
+    function viewInfo() {
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    message: "What would you like to view?",
+                    choices: ["departments", "roles", "employees"],
+                    name: "view"
+                }
 
-    //         ]).then(response => {
-    //             switch (response.view) {
+            ]).then(response => {
+                switch (response.view) {
 
-    //                 case "departments": viewDepartment();
+                    case "departments": viewDepartment();
 
-    //                     break;
+                        break;
 
-    //                 case "roles": viewRoles();
+                    case "roles": viewRoles();
 
-    //                     break;
+                        break;
 
-    //                 case "employees": viewEmployees();
+                    case "employees": viewEmployees();
 
-    //                     break;
+                        break;
 
-    //                 default: console.log("err in the view function")
-    //             };
-    //         });
-    // };
+                    default: console.log("err in the view function")
+                };
+            });
+    };
 
-    // function viewDepartment(){
-    //     connection.query("SELECT * FROM department", function(err, results) {
-    //         if (err) throw err;
-    //     console.log(results);
-
-
-    //     });
-    // };
-// //*********************************************************** 
+    function viewDepartment(){
+        connection.query("SELECT * FROM department", function(err, results) {
+            if (err) throw err;
+        console.table(results);
+        });
+    };
+    function viewRoles(){
+        connection.query("SELECT * FROM role", function(err, results) {
+            if (err) throw err;
+            console.table(results);
+        });
+    };
+    function viewEmployees(){
+        connection.query("SELECT * FROM employee", function(err, results) {
+            if (err) throw err;
+            console.table(results);
+        });
+    };
+    
+// //****************************************UPDATE********************************************** 
 //     function updateInfo() {
 //         inquirer
 //             .prompt([
@@ -281,7 +292,7 @@
 
 
 
-//     //*********************************************************** 
+//     //******************************************DELETE***************************************** 
 //     function deleteInfo() {
 //         inquirer
 //             .prompt([
