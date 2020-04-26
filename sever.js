@@ -114,6 +114,11 @@
                 type: "input",
                 message: "How much is salary?",
                 name: "addSalary",
+            },
+            {
+                type: "input",
+                message: "what is department id of the employer?",
+                name: "addDeptId",
             }
 
             ])
@@ -122,7 +127,8 @@
                 "INSERT INTO role SET ?",
                 {
                   title: addRoles.addRole,
-                  salary: addRoles.addSalary
+                  salary: addRoles.addSalary,
+                  department_id: addRoles.addDeptId
                 },
                 function(err) {
                     if (err) throw err;
@@ -130,6 +136,52 @@
             });      
         });
     };
+
+    function addEmployees(){
+        inquirer
+            .prompt([
+            { 
+                type: "input",
+                message: "What is the employer's first name?",
+                name: "firstName",
+            },
+            { 
+                type: "input",
+                message: "What is the employer's last name?",
+                name: "lastName",
+            },
+            {
+                type: "input",
+                message: "what is role id of the employer?",
+                name: "roleId",
+            },
+            {
+                type: "input",
+                message: "what is manager id of the employer?",
+                name: "managerId",
+            }
+    
+            ])
+            .then(function(addEmployees) {
+            connection.query(
+                "INSERT INTO employee SET ?",
+                {
+                  first_name: addEmployees.firstName,
+                  last_name: addEmployees.lastName,
+                  role_id: addEmployees.roleId,
+                  manager_id: addEmployees.managerId
+                },
+                function(err) {
+                    if (err) throw err;
+                    console.log("Your role was created successfully!");
+            });      
+        });
+    };
+
+
+
+
+    
         
     
 
