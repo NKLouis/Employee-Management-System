@@ -316,52 +316,52 @@
     //             }
     //         });
     // };
-//******************************************DELETE***************************************** 
-//     function deleteInfo() {
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "list",
-//                     message: "What would you like to delete?",
-//                     choices: ["departments", "roles", "employees"],
-//                     name: "delete"
-//                 }
+//*****************************************DELETE***************************************** 
+    // function deleteInfo() {
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 type: "list",
+    //                 message: "What would you like to delete?",
+    //                 choices: ["departments", "roles", "employees"],
+    //                 name: "delete"
+    //             }
 
-//             ]).then(response => {
-//                 switch (response.delete) {
+    //         ]).then(response => {
+    //             switch (response.delete) {
 
-//                     case "roles": deleteRoles();
+    //                 case "roles": deleteRoles();
 
-//                         break;
+    //                     break;
 
-//                     case "managers": deleteManagers();
+    //                 case "managers": deleteManagers();
 
-//                         break;
+    //                     break;
 
-//                     default: console.log("err in the delete function")
-//                 };
-//             });
-//     };
-//     function deleteRoles(){
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "input",
-//                     message: "What role would you like to delete?",
-//                     name: "deleteRoles"
-//                 },
-//             ])
-//             .then(response => {
-//                 connection.query(
-//                     "DELETE FROM role WHERE ?",
-//                     {
-//                       title: response.deleteRoles
-//                     },
-//                     function(err, res) {
-//                         if (err) throw err;
-//                         console.log(res.affectedRows + " products deleted!\n");
-//                     })
-//             })
-//         }
+    //                 default: console.log("err in the delete function")
+    //             };
+    //         });
+    // };
+    // function deleteRoles(){
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 type: "input",
+    //                 message: "What role would you like to delete?",
+    //                 name: "deleteRoles"
+    //             },
+    //         ])
+    //         .then(response => {
+    //             connection.query(
+    //                 "DELETE FROM role WHERE ?",
+    //                 {
+    //                   title: response.deleteRoles
+    //                 },
+    //                 function(err, res) {
+    //                     if (err) throw err;
+    //                     console.log(res.affectedRows + " products deleted!\n");
+    //                 })
+    //         })
+    //     }
 
 
