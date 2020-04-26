@@ -60,8 +60,8 @@
                     choices: ["departments", "roles", "employees"],
                     name: "add"
                 }
-
-            ]).then(response => {
+            ])
+            .then(response => {
                 switch (response.add) {
 
                     case "departments": addDepartment();
@@ -82,15 +82,15 @@
     };
     function addDepartment() {
         inquirer
-        .prompt([
-          {
-            
-            type: "input",
-            message: "What department would you like to add?",
-            name: "item",
-          },
-        ])
-        .then(function(addDepartment) {
+            .prompt([
+            {
+                
+                type: "input",
+                message: "What department would you like to add?",
+                name: "item",
+            }
+            ])
+            .then(function(addDepartment) {
             connection.query(
                 "INSERT INTO department SET ?",
                 {
@@ -99,163 +99,191 @@
                 function(err) {
                     if (err) throw err;
                     console.log("Your department was created successfully!");
-                })      
-        })
+            });      
+        });
+    };
+    function addRoles() {
+        inquirer
+            .prompt([
+            { 
+                type: "input",
+                message: "What role would you like to add?",
+                name: "addRole",
+            },
+            {
+                type: "input",
+                message: "How much is salary?",
+                name: "addSalary",
+            }
+
+            ])
+            .then(function(addRoles) {
+            connection.query(
+                "INSERT INTO role SET ?",
+                {
+                  title: addRoles.addRole,
+                  salary: addRoles.addSalary
+                },
+                function(err) {
+                    if (err) throw err;
+                    console.log("Your role was created successfully!");
+            });      
+        });
     };
         
     
 
-//***************************************************************
-    function viewInfo() {
-        inquirer
-            .prompt([
-                {
-                    type: "list",
-                    message: "What would you like to view?",
-                    choices: ["departments", "roles", "employees"],
-                    name: "view"
-                }
+// //***************************************************************
+//     function viewInfo() {
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "list",
+//                     message: "What would you like to view?",
+//                     choices: ["departments", "roles", "employees"],
+//                     name: "view"
+//                 }
 
-            ]).then(response => {
-                switch (response.view) {
+//             ]).then(response => {
+//                 switch (response.view) {
 
-                    case "departments": viewDepartment();
+//                     case "departments": viewDepartment();
 
-                        break;
+//                         break;
 
-                    case "roles": viewRoles();
+//                     case "roles": viewRoles();
 
-                        break;
+//                         break;
 
-                    case "employees": viewEmployees();
+//                     case "employees": viewEmployees();
 
-                        break;
+//                         break;
 
-                    default: console.log("err in the view function")
-                };
-            });
-    };
+//                     default: console.log("err in the view function")
+//                 };
+//             });
+//     };
 
-    function viewDepartment(){
-        connection.query("SELECT * FROM department", function(err, results) {
-            if (err) throw err;
-        console.log(results);
+//     function viewDepartment(){
+//         connection.query("SELECT * FROM department", function(err, results) {
+//             if (err) throw err;
+//         console.log(results);
 
 
-        });
-    };
-//*********************************************************** 
-    function updateInfo() {
-        inquirer
-            .prompt([
-                {
-                    type: "list",
-                    message: "What would you like to update?",
-                    choices: ["employeeRoles", "employeeManagers"],
-                    name: "update"
-                }
+//         });
+//     };
+// //*********************************************************** 
+//     function updateInfo() {
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "list",
+//                     message: "What would you like to update?",
+//                     choices: ["employeeRoles", "employeeManagers"],
+//                     name: "update"
+//                 }
 
-            ]).then(response => {
-                switch (response.update) {
+//             ]).then(response => {
+//                 switch (response.update) {
 
-                    case "employeeRoles": updateRoles();
+//                     case "employeeRoles": updateRoles();
 
-                        break;
+//                         break;
 
-                    case "employeeManagers": updateManagers();
+//                     case "employeeManagers": updateManagers();
 
-                        break;
+//                         break;
 
-                    default: console.log("err in the update function")
-                };
-            });
-    };
-    function updateRoles(){
-        inquirer
-            .prompt([
-                {
-                    type: "input",
-                    message: "What role would you like to update?",
-                    name: "updateRoles"
-                },
-                {
-                    type: "input",
-                    message: "What role would you like to change it to?",
-                    name: "newRoles"
-                }
-            ])
-            .then(response => {
-                connection.query("UPDATE role SET ? WHERE ?",
-                [
-                    {
-                     title: response.newRoles
-                    },
-                    {
-                    title: response.updateRoles  
-                    }
-                ],
-                function(err, res) {
-                    if (err) throw err;
-                    console.log(res.affectedRows + " products updated!\n");
-                }
-                )
+//                     default: console.log("err in the update function")
+//                 };
+//             });
+//     };
+//     function updateRoles(){
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "input",
+//                     message: "What role would you like to update?",
+//                     name: "updateRoles"
+//                 },
+//                 {
+//                     type: "input",
+//                     message: "What role would you like to change it to?",
+//                     name: "newRoles"
+//                 }
+//             ])
+//             .then(response => {
+//                 connection.query("UPDATE role SET ? WHERE ?",
+//                 [
+//                     {
+//                      title: response.newRoles
+//                     },
+//                     {
+//                     title: response.updateRoles  
+//                     }
+//                 ],
+//                 function(err, res) {
+//                     if (err) throw err;
+//                     console.log(res.affectedRows + " products updated!\n");
+//                 }
+//                 )
                 
 
-            })
+//             })
 
 
 
 
-    }
+//     }
 
 
 
-    //*********************************************************** 
-    function deleteInfo() {
-        inquirer
-            .prompt([
-                {
-                    type: "list",
-                    message: "What would you like to delete?",
-                    choices: ["departments", "roles", "employees"],
-                    name: "delete"
-                }
+//     //*********************************************************** 
+//     function deleteInfo() {
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "list",
+//                     message: "What would you like to delete?",
+//                     choices: ["departments", "roles", "employees"],
+//                     name: "delete"
+//                 }
 
-            ]).then(response => {
-                switch (response.delete) {
+//             ]).then(response => {
+//                 switch (response.delete) {
 
-                    case "roles": deleteRoles();
+//                     case "roles": deleteRoles();
 
-                        break;
+//                         break;
 
-                    case "managers": deleteManagers();
+//                     case "managers": deleteManagers();
 
-                        break;
+//                         break;
 
-                    default: console.log("err in the delete function")
-                };
-            });
-    };
-    function deleteRoles(){
-        inquirer
-            .prompt([
-                {
-                    type: "input",
-                    message: "What role would you like to delete?",
-                    name: "deleteRoles"
-                },
-            ])
-            .then(response => {
-                connection.query(
-                    "DELETE FROM role WHERE ?",
-                    {
-                      title: response.deleteRoles
-                    },
-                    function(err, res) {
-                        if (err) throw err;
-                        console.log(res.affectedRows + " products deleted!\n");
-                    })
-            })
-        }
+//                     default: console.log("err in the delete function")
+//                 };
+//             });
+//     };
+//     function deleteRoles(){
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: "input",
+//                     message: "What role would you like to delete?",
+//                     name: "deleteRoles"
+//                 },
+//             ])
+//             .then(response => {
+//                 connection.query(
+//                     "DELETE FROM role WHERE ?",
+//                     {
+//                       title: response.deleteRoles
+//                     },
+//                     function(err, res) {
+//                         if (err) throw err;
+//                         console.log(res.affectedRows + " products deleted!\n");
+//                     })
+//             })
+//         }
 
 
