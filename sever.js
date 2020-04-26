@@ -60,8 +60,8 @@
                     choices: ["departments", "roles", "employees"],
                     name: "add"
                 }
-            ])
-            .then(response => {
+
+            ]).then(response => {
                 switch (response.add) {
 
                     case "departments": addDepartment();
@@ -89,8 +89,8 @@
                 message: "What department would you like to add?",
                 name: "item",
             }
-            ])
-            .then(function(addDepartment) {
+
+            ]).then(function(addDepartment) {
             connection.query(
                 "INSERT INTO department SET ?",
                 {
@@ -160,8 +160,7 @@
                 name: "managerId",
             }
     
-            ])
-            .then(function(addEmployees) {
+            ]).then(function(addEmployees) {
             connection.query(
                 "INSERT INTO employee SET ?",
                 {
@@ -227,72 +226,97 @@
     };
     
 // //****************************************UPDATE*********************************** 
-//     function updateInfo() {
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "list",
-//                     message: "What would you like to update?",
-//                     choices: ["employeeRoles", "employeeManagers"],
-//                     name: "update"
-//                 }
+    function updateInfo() {
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    message: "What would you like to update?",
+                    choices: ["employeeRoles", "employeeManagers"],
+                    name: "update"
+                }
 
-//             ]).then(response => {
-//                 switch (response.update) {
+            ]).then(response => {
+                switch (response.update) {
 
-//                     case "employeeRoles": updateRoles();
+                    case "employeeRoles": updateRoles();
 
-//                         break;
+                        break;
 
-//                     case "employeeManagers": updateManagers();
+                    case "employeeManagers": updateManagers();
 
-//                         break;
+                        break;
 
-//                     default: console.log("err in the update function")
-//                 };
-//             });
-//     };
-//     function updateRoles(){
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "input",
-//                     message: "What role would you like to update?",
-//                     name: "updateRoles"
-//                 },
-//                 {
-//                     type: "input",
-//                     message: "What role would you like to change it to?",
-//                     name: "newRoles"
-//                 }
-//             ])
-//             .then(response => {
-//                 connection.query("UPDATE role SET ? WHERE ?",
-//                 [
-//                     {
-//                      title: response.newRoles
-//                     },
-//                     {
-//                     title: response.updateRoles  
-//                     }
-//                 ],
-//                 function(err, res) {
-//                     if (err) throw err;
-//                     console.log(res.affectedRows + " products updated!\n");
-//                 }
-//                 )
-                
+                    default: console.log("err in the update function")
+                };
+            });
+    };
 
-//             })
+    function updateRoles(){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "What employee role would you like to update?",
+                    name: "oldRole"
+                },
+                {
+                    type: "input",
+                    message: "What role would you like to change it to?",
+                    name: "newRole"
+                }
 
+            ])
+            .then(response => {
+                connection.query("UPDATE role SET ? WHERE ?",
+                [
+                    {
+                     title: response.newRole
+                    },
+                    {
+                    title: response.oldRole  
+                    }
+                ],
+                function(err, res) {
+                    if (err) throw err;
+                    console.log(res.affectedRows + " New role updated!");
+                }
+                );
+            });
+    };
 
-
-
-//     }
-
-
-
-//     //******************************************DELETE***************************************** 
+    // function updateManagers(){
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 type: "input",
+    //                 message: "Which employee would you like to update a manager?",
+    //                 name: "oldManager"
+    //             },
+    //             {
+    //                 type: "input",
+    //                 message: "who is the employee's new manager?",
+    //                 name: "newManager"
+    //             },
+            
+    //         ])
+    //         .then(response => {
+    //             connection.query("UPDATE employee SET ? WHERE ?",
+    //             [
+    //                 {
+    //                 manager_id: response.newManager
+    //                 },
+    //                 {
+    //                 manager_id: response.oldManager  
+    //                 }
+    //             ]),
+    //             function(err, res) {
+    //                 if (err) throw err;
+    //                 console.log(res.affectedRows + " New manager updated!");
+    //             }
+    //         });
+    // };
+//******************************************DELETE***************************************** 
 //     function deleteInfo() {
 //         inquirer
 //             .prompt([
