@@ -141,17 +141,17 @@
             .prompt([
             { 
                 type: "input",
-                message: "What is the employer's first name?",
+                message: "What is the employee's first name?",
                 name: "firstName",
             },
             { 
                 type: "input",
-                message: "What is the employer's last name?",
+                message: "What is the employee's last name?",
                 name: "lastName",
             },
             {
                 type: "input",
-                message: "what is role id of the employer?",
+                message: "what is the employee's role id?",
                 name: "roleId",
             },
             {
@@ -176,7 +176,7 @@
             });      
         });
     };
-// //******************************************VIEW*******************************************
+// ******************************************VIEW***************************************
     function viewInfo() {
         inquirer
             .prompt([
@@ -226,7 +226,7 @@
         });
     };
     
-// //****************************************UPDATE********************************************** 
+// //****************************************UPDATE*********************************** 
 //     function updateInfo() {
 //         inquirer
 //             .prompt([
