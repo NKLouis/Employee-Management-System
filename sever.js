@@ -50,7 +50,7 @@
                 }
             });
     };
-
+//*******************************************ADD*************************************** */
     function addInfo() {
         inquirer
             .prompt([
@@ -108,17 +108,17 @@
             { 
                 type: "input",
                 message: "What role would you like to add?",
-                name: "addRole",
+                name: "role",
             },
             {
                 type: "input",
                 message: "How much is salary?",
-                name: "addSalary",
+                name: "salary",
             },
             {
                 type: "input",
                 message: "what is department id of the employer?",
-                name: "addDeptId",
+                name: "deptId",
             }
 
             ])
@@ -126,9 +126,9 @@
             connection.query(
                 "INSERT INTO role SET ?",
                 {
-                  title: addRoles.addRole,
-                  salary: addRoles.addSalary,
-                  department_id: addRoles.addDeptId
+                  title: addRoles.role,
+                  salary: addRoles.salary,
+                  department_id: addRoles.deptId
                 },
                 function(err) {
                     if (err) throw err;
@@ -136,7 +136,6 @@
             });      
         });
     };
-
     function addEmployees(){
         inquirer
             .prompt([
@@ -177,53 +176,45 @@
             });      
         });
     };
+// //******************************************VIEW*******************************************
+    // function viewInfo() {
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 type: "list",
+    //                 message: "What would you like to view?",
+    //                 choices: ["departments", "roles", "employees"],
+    //                 name: "view"
+    //             }
+
+    //         ]).then(response => {
+    //             switch (response.view) {
+
+    //                 case "departments": viewDepartment();
+
+    //                     break;
+
+    //                 case "roles": viewRoles();
+
+    //                     break;
+
+    //                 case "employees": viewEmployees();
+
+    //                     break;
+
+    //                 default: console.log("err in the view function")
+    //             };
+    //         });
+    // };
+
+    // function viewDepartment(){
+    //     connection.query("SELECT * FROM department", function(err, results) {
+    //         if (err) throw err;
+    //     console.log(results);
 
 
-
-
-    
-        
-    
-
-// //***************************************************************
-//     function viewInfo() {
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: "list",
-//                     message: "What would you like to view?",
-//                     choices: ["departments", "roles", "employees"],
-//                     name: "view"
-//                 }
-
-//             ]).then(response => {
-//                 switch (response.view) {
-
-//                     case "departments": viewDepartment();
-
-//                         break;
-
-//                     case "roles": viewRoles();
-
-//                         break;
-
-//                     case "employees": viewEmployees();
-
-//                         break;
-
-//                     default: console.log("err in the view function")
-//                 };
-//             });
-//     };
-
-//     function viewDepartment(){
-//         connection.query("SELECT * FROM department", function(err, results) {
-//             if (err) throw err;
-//         console.log(results);
-
-
-//         });
-//     };
+    //     });
+    // };
 // //*********************************************************** 
 //     function updateInfo() {
 //         inquirer
