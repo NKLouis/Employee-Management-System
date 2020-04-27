@@ -367,48 +367,48 @@
             });
     };
 
-    // // function deleteDept(){
-    // //     inquirer
-    // //         .prompt([
-    // //             {
-    // //                 type: "input",
-    // //                 message: "What role would you like to delete?",
-    // //                 name: "deleteRoles"
-    // //             },
-    // //         ])
-    // //         .then(response => {
-    // //             connection.query(
-    // //                 "DELETE FROM role WHERE ?",
-    // //                 {
-    // //                   title: response.deleteRoles
-    // //                 },
-    // //                 function(err, res) {
-    // //                     if (err) throw err;
-    // //                     console.log(res.affectedRows + " products deleted!\n");
-    // //                 })
-    // //         })
-    // //     }
+    function deleteDept(){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message:"What is the id of the department you would like to delete?",
+                    name: "deleteDept"
+                },
+            ])
+            .then(response => {
+                connection.query(
+                    "DELETE FROM department WHERE ?",
+                    {
+                      id: response.deleteDept
+                    },
+                    function(err, res) {
+                        if (err) throw err;
+                        console.log(res.affectedRows + " Department deleted!\n");
+                    })
+            })
+        }
 
-    // // function deleteEmployee(){
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 type: "input",
-    //                 message: "What role would you like to delete?",
-    //                 name: "deleteRoles"
-    //             },
-    //         ])
-    //         .then(response => {
-    //             connection.query(
-    //                 "DELETE FROM role WHERE ?",
-    //                 {
-    //                   title: response.deleteRoles
-    //                 },
-    //                 function(err, res) {
-    //                     if (err) throw err;
-    //                     console.log(res.affectedRows + " products deleted!\n");
-    //                 })
-    //         })
-    //     }
+    // function deleteEmployee(){
+        // inquirer
+        //     .prompt([
+        //         {
+        //             type: "input",
+        //             message: "What role would you like to delete?",
+        //             name: "deleteRoles"
+        //         },
+        //     ])
+        //     .then(response => {
+        //         connection.query(
+        //             "DELETE FROM role WHERE ?",
+        //             {
+        //               title: response.deleteRoles
+        //             },
+        //             function(err, res) {
+        //                 if (err) throw err;
+        //                 console.log(res.affectedRows + " products deleted!\n");
+        //             })
+        //     })
+        // }
 
 
