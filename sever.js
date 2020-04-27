@@ -86,7 +86,7 @@
             {
                 
                 type: "input",
-                message: "What department would you like to add?",
+                message: "What is the department of the employee would you like to add?",
                 name: "item",
             }
 
@@ -98,7 +98,7 @@
                 },
                 function(err) {
                     if (err) throw err;
-                    console.log("Your department was created successfully!");
+                    console.log("Employee's department was created successfully!");
             });      
         });
     };
@@ -107,12 +107,12 @@
             .prompt([
             { 
                 type: "input",
-                message: "What role would you like to add?",
+                message: "What is the role of the employee?",
                 name: "role",
             },
             {
                 type: "input",
-                message: "How much is salary?",
+                message: "How much is the salary of the employee?",
                 name: "salary",
             },
             {
@@ -156,7 +156,7 @@
             },
             {
                 type: "input",
-                message: "what is manager id of the employee?",
+                message: "what is the manager id of the employee?",
                 name: "managerId",
             }
     
@@ -182,22 +182,21 @@
                 {
                     type: "list",
                     message: "What would you like to view?",
-                    choices: ["departments", "roles", "employees"],
+                    choices: ["View All Employees","View All Employee By Manager","View All Employee By Department"],
                     name: "view"
                 }
 
             ]).then(response => {
                 switch (response.view) {
-
-                    case "departments": viewDepartment();
-
-                        break;
-
-                    case "roles": viewRoles();
+                    case "View All Employees": viewAllEmployees();
 
                         break;
 
-                    case "employees": viewEmployees();
+                    case "View All Employee By Manager": viewByManager();
+
+                        break;
+
+                    case "View All Employee By Department": viewByDept();
 
                         break;
 
@@ -205,25 +204,39 @@
                 };
             });
     };
-
-    function viewDepartment(){
-        connection.query("SELECT * FROM department", function(err, results) {
+    function viewAllEmployees(){
+        connection.query(" SELECT department.id, department.name, role.title, role.salary, employee.first_name, employee.last_name FROM department INNER JOIN role ON department.id = role.department_id INNER JOIN employee ON role.department_id = employee.role_id", function(err, results) {
             if (err) throw err;
         console.table(results);
-        });
+        }); 
+        connection.end();
     };
-    function viewRoles(){
-        connection.query("SELECT * FROM role", function(err, results) {
-            if (err) throw err;
-            console.table(results);
-        });
-    };
-    function viewEmployees(){
-        connection.query("SELECT * FROM employee", function(err, results) {
-            if (err) throw err;
-            console.table(results);
-        });
-    };
+    // function viewAllEmployees(){
+    //     connection.query("SELECT * FROM department SELECT role.title, role.salary FROM role SELECT employee.first_name, employee.first_name", function(err, results) {
+    //         if (err) throw err;
+    //     console.table(results);
+    //     connection.end();
+    //     });
+    // };
+    // function viewByManager(){
+    //     connection.query("SELECT * FROM role", function(err, results) {
+    //         if (err) throw err;
+    //         console.table(results);
+    //         connection.end();
+    //     });
+    // // };
+    // function viewByDept(){
+    //     connection.query("SELECT department.id, department.name, employee.first_name, employee.last_name FROM department INNER JOIN role ON department.id = role.department_id"
+    //     FROM books
+    //     LEFT JOIN authors ON books.authorId = authors.id;", function(err, results) {
+    //         if (err) throw err;
+    //         console.table(results);
+    //         connection.end();
+    //     });
+    // };
+
+    
+
     
 // //****************************************UPDATE*********************************** 
     function updateInfo() {
@@ -290,12 +303,12 @@
     //         .prompt([
     //             {
     //                 type: "input",
-    //                 message: "Which employee would you like to update a manager?",
+    //                 message: "What is the id of employee would you like to update a manager?",
     //                 name: "oldManager"
     //             },
     //             {
     //                 type: "input",
-    //                 message: "who is the employee's new manager?",
+    //                 message: "what is the name of employee's manager whould you like to add?",
     //                 name: "newManager"
     //             },
             
