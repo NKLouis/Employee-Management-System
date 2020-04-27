@@ -117,7 +117,7 @@
             },
             {
                 type: "input",
-                message: "what is department id of the employer?",
+                message: "what is department id of the employee?",
                 name: "deptId",
             }
 
@@ -156,7 +156,7 @@
             },
             {
                 type: "input",
-                message: "what is manager id of the employer?",
+                message: "what is manager id of the employee?",
                 name: "managerId",
             }
     
@@ -317,32 +317,79 @@
     //         });
     // };
 //*****************************************DELETE***************************************** 
-    // function deleteInfo() {
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 type: "list",
-    //                 message: "What would you like to delete?",
-    //                 choices: ["departments", "roles", "employees"],
-    //                 name: "delete"
-    //             }
+    function deleteInfo() {
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    message: "What would you like to delete?",
+                    choices: ["departments", "roles", "employees"],
+                    name: "delete"
+                }
 
-    //         ]).then(response => {
-    //             switch (response.delete) {
+            ]).then(response => {
+                switch (response.delete) {
 
-    //                 case "roles": deleteRoles();
+                    case "roles": deleteRole();
 
-    //                     break;
+                        break;
 
-    //                 case "managers": deleteManagers();
+                    case "departments": deleteDept();
 
-    //                     break;
+                        break;
+                    
+                    case "employees": deleteEmployee();
+                        break;
 
-    //                 default: console.log("err in the delete function")
-    //             };
-    //         });
-    // };
-    // function deleteRoles(){
+                    default: console.log("err in the delete function")
+                };
+            });
+    };
+    function deleteRole(){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "What is the id of the employee you would like to delete?",
+                    name: "employeeId"
+                }                      
+            ])
+            .then(response => {
+                connection.query(
+                    "DELETE FROM role WHERE ?",
+                    {
+                      id: response.employeeId                  
+                    },
+                    function(err, res) {
+                        if (err) throw err;
+                        console.log(res.affectedRows + " Employee deleted!\n");
+                    });
+            });
+    };
+
+    // // function deleteDept(){
+    // //     inquirer
+    // //         .prompt([
+    // //             {
+    // //                 type: "input",
+    // //                 message: "What role would you like to delete?",
+    // //                 name: "deleteRoles"
+    // //             },
+    // //         ])
+    // //         .then(response => {
+    // //             connection.query(
+    // //                 "DELETE FROM role WHERE ?",
+    // //                 {
+    // //                   title: response.deleteRoles
+    // //                 },
+    // //                 function(err, res) {
+    // //                     if (err) throw err;
+    // //                     console.log(res.affectedRows + " products deleted!\n");
+    // //                 })
+    // //         })
+    // //     }
+
+    // // function deleteEmployee(){
     //     inquirer
     //         .prompt([
     //             {
