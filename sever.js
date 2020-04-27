@@ -382,33 +382,33 @@
                     {
                       id: response.deleteDept
                     },
-                    function(err, res) {
+                    function(err, res) {    
                         if (err) throw err;
                         console.log(res.affectedRows + " Department deleted!\n");
-                    })
-            })
-        }
+                    });
+            });
+    };
 
-    // function deleteEmployee(){
-        // inquirer
-        //     .prompt([
-        //         {
-        //             type: "input",
-        //             message: "What role would you like to delete?",
-        //             name: "deleteRoles"
-        //         },
-        //     ])
-        //     .then(response => {
-        //         connection.query(
-        //             "DELETE FROM role WHERE ?",
-        //             {
-        //               title: response.deleteRoles
-        //             },
-        //             function(err, res) {
-        //                 if (err) throw err;
-        //                 console.log(res.affectedRows + " products deleted!\n");
-        //             })
-        //     })
-        // }
+    function deleteEmployee(){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "What is the id of the employee you would like to delete?",
+                    name: "deleteEmployee"
+                },
+            ])
+            .then(response => {
+                connection.query(
+                    "DELETE FROM employee WHERE ?",
+                    {
+                      id: response.deleteEmployee
+                    },
+                    function(err, res) {
+                        if (err) throw err;
+                        console.log(res.affectedRows + " Employee deleted!\n");
+                    });
+            });
+     };
 
 
