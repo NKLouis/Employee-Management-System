@@ -80,6 +80,7 @@
                 };
             });
     };
+    // add employee department
     function addDepartment() {
         inquirer
             .prompt([
@@ -102,6 +103,7 @@
             });      
         });
     };
+    // add employee role
     function addRoles() {
         inquirer
             .prompt([
@@ -136,6 +138,7 @@
             });      
         });
     };
+    // add employee
     function addEmployees(){
         inquirer
             .prompt([
@@ -208,6 +211,7 @@
                 };
             });
     };
+    // view all employees
     function viewAllEmployees(){
         connection.query(" SELECT * FROM employee LEFT JOIN role ON employee.role_id=role.id", function(err, results) {
             if (err) throw err;
@@ -215,7 +219,7 @@
         }); 
         connection.end();
     };
-    
+    // view employees by manager
     function viewByManager(){
         connection.query(" SELECT * FROM employee ORDER BY manager_id", function(err, results) {
             if (err) throw err;
@@ -223,7 +227,7 @@
             connection.end();
         });
     };
-
+    // view employees by department 
     function viewByDept(){
         connection.query(" SELECT first_name, last_name, name FROM employee e JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id ORDER BY name", function(err, results) {
             if (err) throw err;
@@ -231,7 +235,7 @@
             connection.end();
         });
     };
-
+    // view total utilized budget of a department
     function viewTotal(){
         connection.query(" SELECT name ,SUM(salary) FROM department INNER JOIN role ON  department.id = role.department_id GROUP BY name", function(err, results) {
             if (err) throw err;
@@ -266,7 +270,7 @@
                 };
             });
     };
-
+    // update employee role
     function updateRoles(){
         inquirer
             .prompt([
@@ -299,7 +303,7 @@
                 );
             });
     };
-
+    // update employee's manager
     function updateManagers(){
         inquirer
             .prompt([
@@ -360,6 +364,7 @@
                 };
             });
     };
+    //delete role
     function deleteRole(){
         inquirer
             .prompt([
@@ -381,7 +386,7 @@
                     });
             });
     };
-
+ // delete department
     function deleteDept(){
         inquirer
             .prompt([
@@ -403,7 +408,7 @@
                     });
             });
     };
-
+    //delete employee
     function deleteEmployee(){
         inquirer
             .prompt([
@@ -424,7 +429,6 @@
                         console.log(res.affectedRows + " Employee deleted!\n");
                     });
             });
-            viewTotal();
      };
 
 
