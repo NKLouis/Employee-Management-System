@@ -182,7 +182,7 @@
                 {
                     type: "list",
                     message: "What would you like to view?",
-                    choices: ["View All Employees","View All Employee By Manager","View All Employee By Department"],
+                    choices: ["View All Employees","View All Employees By Manager","View All Employees By Department" , "View Total Budget"],
                     name: "view"
                 }
 
@@ -192,11 +192,15 @@
 
                         break;
 
-                    case "View All Employee By Manager": viewByManager();
+                    case "View All Employees By Manager": viewByManager();
 
                         break;
 
-                    case "View All Employee By Department": viewByDept();
+                    case "View All Employees By Department": viewByDept();
+
+                        break;
+                    
+                      case "View Total Budget": viewTotal();
 
                         break;
 
@@ -205,38 +209,36 @@
             });
     };
     function viewAllEmployees(){
-        connection.query(" SELECT department.id, department.name, role.title, role.salary, employee.first_name, employee.last_name FROM department INNER JOIN role ON department.id = role.department_id INNER JOIN employee ON role.department_id = employee.role_id", function(err, results) {
+        connection.query(" SELECT * FROM employee LEFT JOIN role ON employee.role_id=role.id", function(err, results) {
             if (err) throw err;
         console.table(results);
         }); 
         connection.end();
     };
-    // function viewAllEmployees(){
-    //     connection.query("SELECT * FROM department SELECT role.title, role.salary FROM role SELECT employee.first_name, employee.first_name", function(err, results) {
-    //         if (err) throw err;
-    //     console.table(results);
-    //     connection.end();
-    //     });
-    // };
-    // function viewByManager(){
-    //     connection.query("SELECT * FROM role", function(err, results) {
-    //         if (err) throw err;
-    //         console.table(results);
-    //         connection.end();
-    //     });
-    // // };
-    // function viewByDept(){
-    //     connection.query("SELECT department.id, department.name, employee.first_name, employee.last_name FROM department INNER JOIN role ON department.id = role.department_id"
-    //     FROM books
-    //     LEFT JOIN authors ON books.authorId = authors.id;", function(err, results) {
-    //         if (err) throw err;
-    //         console.table(results);
-    //         connection.end();
-    //     });
-    // };
-
     
+    function viewByManager(){
+        connection.query(" SELECT * FROM employee ORDER BY manager_id", function(err, results) {
+            if (err) throw err;
+            console.table(results);
+            connection.end();
+        });
+    };
 
+    function viewByDept(){
+        connection.query(" SELECT first_name, last_name, name FROM employee e JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id ORDER BY name", function(err, results) {
+            if (err) throw err;
+            console.table(results);
+            connection.end();
+        });
+    };
+
+    function viewTotal(){
+        connection.query(" SELECT name ,SUM(salary) FROM department INNER JOIN role ON  department.id = role.department_id GROUP BY name", function(err, results) {
+            if (err) throw err;
+            console.table(results);
+            connection.end();
+        });
+    };
     
 // //****************************************UPDATE*********************************** 
     function updateInfo() {
@@ -245,18 +247,18 @@
                 {
                     type: "list",
                     message: "What would you like to update?",
-                    choices: ["employeeRoles", "employeeManagers"],
+                    choices: ["Update Employee Role", "Update Employee Manager"],
                     name: "update"
                 }
 
             ]).then(response => {
                 switch (response.update) {
 
-                    case "employeeRoles": updateRoles();
+                    case "Update Employee Role": updateRoles();
 
                         break;
 
-                    case "employeeManagers": updateManagers();
+                    case "Update Employee Manager": updateManagers();
 
                         break;
 
@@ -270,7 +272,7 @@
             .prompt([
                 {
                     type: "input",
-                    message: "What employee role would you like to update?",
+                    message: "What is the id of the employee that you want to update role?",
                     name: "oldRole"
                 },
                 {
@@ -287,7 +289,7 @@
                      title: response.newRole
                     },
                     {
-                    title: response.oldRole  
+                    id: response.oldRole  
                     }
                 ],
                 function(err, res) {
@@ -298,37 +300,37 @@
             });
     };
 
-    // function updateManagers(){
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 type: "input",
-    //                 message: "What is the id of employee would you like to update a manager?",
-    //                 name: "oldManager"
-    //             },
-    //             {
-    //                 type: "input",
-    //                 message: "what is the name of employee's manager whould you like to add?",
-    //                 name: "newManager"
-    //             },
+    function updateManagers(){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "What is the id of employee would you like to update a manager?",
+                    name: "oldManager"
+                },
+                {
+                    type: "input",
+                    message: "what is the new id of manager whould you like to add?",
+                    name: "newManager"
+                },
             
-    //         ])
-    //         .then(response => {
-    //             connection.query("UPDATE employee SET ? WHERE ?",
-    //             [
-    //                 {
-    //                 manager_id: response.newManager
-    //                 },
-    //                 {
-    //                 manager_id: response.oldManager  
-    //                 }
-    //             ]),
-    //             function(err, res) {
-    //                 if (err) throw err;
-    //                 console.log(res.affectedRows + " New manager updated!");
-    //             }
-    //         });
-    // };
+            ])
+            .then(response => {
+                connection.query("UPDATE employee SET ? WHERE ?",
+                [
+                    {
+                    manager_id: response.newManager
+                    },
+                    {
+                    id: response.oldManager  
+                    }
+                ]),
+                function(err, res) {
+                    if (err) throw err;
+                    console.log(res.affectedRows + " New manager updated!");
+                }
+            });
+    };
 //*****************************************DELETE***************************************** 
     function deleteInfo() {
         inquirer
@@ -422,6 +424,7 @@
                         console.log(res.affectedRows + " Employee deleted!\n");
                     });
             });
+            viewTotal();
      };
 
 
