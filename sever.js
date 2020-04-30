@@ -1,5 +1,6 @@
     var mysql = require("mysql");
     var inquirer = require("inquirer");
+    require("dotenv").config()
 
     var connection = mysql.createConnection({
         host: "localhost",
@@ -11,7 +12,7 @@
         user: "root",
 
         // Your password
-        password: "6963",
+        password: process.env.password,
         database: "employee_DB"
     });
 
@@ -95,7 +96,7 @@
             connection.query(
                 "INSERT INTO department SET ?",
                 {
-                  name: addDepartment.item,
+                  deptName: addDepartment.item,
                 },
                 function(err) {
                     if (err) throw err;
@@ -152,7 +153,7 @@
                 message: "What is the employee's last name?",
                 name: "lastName",
             },
-            {
+             {
                 type: "input",
                 message: "what is the employee's role id?",
                 name: "roleId",
@@ -185,7 +186,7 @@
                 {
                     type: "list",
                     message: "What would you like to view?",
-                    choices: ["View All Employees","View All Employees By Manager","View All Employees By Department" , "View Total Budget"],
+                    choices: ["View All Employees","View All Employees By Manager", "View Total Budget"],
                     name: "view"
                 }
 
@@ -196,10 +197,6 @@
                         break;
 
                     case "View All Employees By Manager": viewByManager();
-
-                        break;
-
-                    case "View All Employees By Department": viewByDept();
 
                         break;
                     
@@ -213,7 +210,7 @@
     };
     // view all employees
     function viewAllEmployees(){
-        connection.query(" SELECT * FROM employee LEFT JOIN role ON employee.role_id=role.id", function(err, results) {
+        connection.query(" SELECT employee.id, employee.first_name, employee.last_name,department.deptName, role.title, role.salary,  employee.manager_id FROM department JOIN role ON department.id = role.department_id JOIN employee ON role.id = employee.id ", function(err, results) {
             if (err) throw err;
         console.table(results);
         }); 
@@ -221,15 +218,7 @@
     };
     // view employees by manager
     function viewByManager(){
-        connection.query(" SELECT * FROM employee ORDER BY manager_id", function(err, results) {
-            if (err) throw err;
-            console.table(results);
-            connection.end();
-        });
-    };
-    // view employees by department 
-    function viewByDept(){
-        connection.query(" SELECT first_name, last_name, name FROM employee e JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id ORDER BY name", function(err, results) {
+        connection.query(" SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id FROM employee ORDER BY manager_id", function(err, results) {
             if (err) throw err;
             console.table(results);
             connection.end();
@@ -237,7 +226,7 @@
     };
     // view total utilized budget of a department
     function viewTotal(){
-        connection.query(" SELECT name ,SUM(salary) FROM department INNER JOIN role ON  department.id = role.department_id GROUP BY name", function(err, results) {
+        connection.query(" SELECT deptName ,SUM(salary) FROM department INNER JOIN role ON department.id = role.department_id GROUP BY deptName", function(err, results) {
             if (err) throw err;
             console.table(results);
             connection.end();
@@ -284,25 +273,24 @@
                     message: "What role would you like to change it to?",
                     name: "newRole"
                 }
-
             ])
             .then(response => {
                 connection.query("UPDATE role SET ? WHERE ?",
                 [
                     {
-                     title: response.newRole
+                    title: response.newRole
                     },
                     {
-                    id: response.oldRole  
+                    id: response.oldRole 
                     }
-                ],
+                ]),
                 function(err, res) {
                     if (err) throw err;
                     console.log(res.affectedRows + " New role updated!");
-                }
-                );
+                };
             });
     };
+
     // update employee's manager
     function updateManagers(){
         inquirer
@@ -316,7 +304,7 @@
                     type: "input",
                     message: "what is the new id of manager whould you like to add?",
                     name: "newManager"
-                },
+                }
             
             ])
             .then(response => {
@@ -332,7 +320,7 @@
                 function(err, res) {
                     if (err) throw err;
                     console.log(res.affectedRows + " New manager updated!");
-                }
+                };
             });
     };
 //*****************************************DELETE***************************************** 
@@ -351,7 +339,8 @@
 
                     case "roles": deleteRole();
 
-                        break;
+
+                    break;
 
                     case "departments": deleteDept();
 
@@ -393,7 +382,7 @@
                 {
                     type: "input",
                     message:"What is the id of the department you would like to delete?",
-                    name: "deleteDept"
+                    deptName: "deleteDept"
                 },
             ])
             .then(response => {
@@ -429,6 +418,6 @@
                         console.log(res.affectedRows + " Employee deleted!\n");
                     });
             });
-     };
+    };
 
 
