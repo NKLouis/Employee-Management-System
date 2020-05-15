@@ -4,7 +4,7 @@
 
 An application that can be used to add, view, update and delete the departments, roles, and employees in a company.
 
-## Installation
+## Installations
 
 ![](http://g.recordit.co/lxK2DYUHjQ.gif)
 
